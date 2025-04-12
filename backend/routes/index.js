@@ -30,7 +30,7 @@ router.get("/userLogout", userLogout);
 
 //admin panel
 router.get("/all-user", authToken, allUsers);
-router.put("/update-user", authToken, updateUser);
+router.post("/update-user", authToken, updateUser);
 
 //product
 router.post("/upload-product", authToken, UploadProductController);

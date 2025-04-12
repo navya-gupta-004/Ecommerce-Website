@@ -74,7 +74,7 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-7">
-          <div className="relative flex justify-center">
+          <div className="relative flex jusify-center">
             {user?._id && (
               <div
                 className="text-3xl cursor-pointer relative flex justify-center"
@@ -91,9 +91,8 @@ const Header = () => {
                 )}
               </div>
             )}
-
             {menuDisplay && (
-              <div className="absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded">
+              <div className="absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded ">
                 <nav>
                   {user?.role === ROLE.ADMIN && (
                     <Link
@@ -101,7 +100,7 @@ const Header = () => {
                       className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
                       onClick={() => setMenuDisplay((preve) => !preve)}
                     >
-                      Admin Panel
+                      Admin-panel
                     </Link>
                   )}
                 </nav>

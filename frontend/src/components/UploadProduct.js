@@ -35,6 +35,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
   const handleUploadProduct = async (e) => {
     const file = e.target.files[0];
     const uploadImageCloudinary = await uploadImage(file);
+    console.log("uploadImage:", uploadImageCloudinary);
 
     setData((preve) => {
       return {

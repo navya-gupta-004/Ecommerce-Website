@@ -1,3 +1,5 @@
+//stripre me jake start developine me accept a payment wale se code dekho
+
 const stripe = require("../../config/stripe");
 const userModel = require("../../models/userModel");
 

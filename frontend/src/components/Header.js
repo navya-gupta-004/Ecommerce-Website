@@ -103,6 +103,12 @@ const Header = () => {
                       Admin-panel
                     </Link>
                   )}
+                  <Link
+                    to={"/order"}
+                    className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                  >
+                    Order
+                  </Link>
                 </nav>
               </div>
             )}

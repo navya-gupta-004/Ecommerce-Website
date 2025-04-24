@@ -22,12 +22,19 @@ const OrderPage = () => {
     fetchOrderDetails();
   }, []);
 
+  const calculateTotalAmount = (productDetails) => {
+    return productDetails.reduce((total, product) => {
+      return total + product.price * product.quantity;
+    }, 0);
+  };
+
   return (
     <div>
       {!data[0] && <p>No Order available</p>}
 
       <div className="p-4 w-full">
         {data.map((item, index) => {
+          const orderTotal = calculateTotalAmount(item.productDetails);
           return (
             <div key={item.userId + index}>
               <p className="font-medium text-lg ">
@@ -79,7 +86,7 @@ const OrderPage = () => {
                 </div>
 
                 <div className="font-semibold ml-auto w-fit lg:text-lg">
-                  Total Amount : {item.totalAmount}
+                  Total Amount: {displayINRCurrency(orderTotal)}
                 </div>
               </div>
             </div>

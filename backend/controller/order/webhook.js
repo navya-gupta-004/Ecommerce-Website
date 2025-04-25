@@ -1,30 +1,30 @@
 const stripe = require("../../config/stripe");
-// const orderModel = require("../../models/orderProductModel");
-// const addToCartModel = require("../../models/cartProduct");
+const orderModel = require("../../models/orderProductModel");
+const addToCartModel = require("../../models/cartProduct");
 
 const endpointSecret = process.env.STRIPE_ENPOINT_WEBHOOK_SECRET_KEY;
 
-// async function getLIneItems(lineItems) {
-//   let ProductItems = [];
+async function getLIneItems(lineItems) {
+  let ProductItems = [];
 
-//   if (lineItems?.data?.length) {
-//     for (const item of lineItems.data) {
-//       const product = await stripe.products.retrieve(item.price.product);
-//       const productId = product.metadata.productId;
+  if (lineItems?.data?.length) {
+    for (const item of lineItems.data) {
+      const product = await stripe.products.retrieve(item.price.product);
+      const productId = product.metadata.productId;
 
-//       const productData = {
-//         productId: productId,
-//         name: product.name,
-//         price: item.price.unit_amount / 100,
-//         quantity: item.quantity,
-//         image: product.images,
-//       };
-//       ProductItems.push(productData);
-//     }
-//   }
+      const productData = {
+        productId: productId,
+        name: product.name,
+        price: item.price.unit_amount / 100,
+        quantity: item.quantity,
+        image: product.images,
+      };
+      ProductItems.push(productData);
+    }
+  }
 
-//   return ProductItems;
-// }
+  return ProductItems;
+}
 
 const webhooks = async (request, response) => {
   const sig = request.headers["stripe-signature"];
@@ -70,29 +70,21 @@ const webhooks = async (request, response) => {
           payment_method_type: session.payment_method_types,
           payment_status: session.payment_status,
         },
-        shipping_options: session.shipping_options.map((s) => {
-          return {
-            ...s,
-            shipping_amount: s.shipping_amount / 100,
-          };
-        }),
-        totalAmount: session.amount_total / 100,
       };
+      const order = new orderModel(orderDetails);
+      const saveOrder = await order.save();
+
+      if (saveOrder?._id) {
+        const deleteCartItem = await addToCartModel.deleteMany({
+          userId: session.metadata.userId,
+        });
+      }
+      break;
+
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);
   }
-  //     const order = new orderModel(orderDetails);
-  //     const saveOrder = await order.save();
-
-  //     if (saveOrder?._id) {
-  //       const deleteCartItem = await addToCartModel.deleteMany({
-  //         userId: session.metadata.userId,
-  //       });
-  //     }
-  //     break;
-
-  //   // ... handle other event types
-  //   default:
-  //     console.log(`Unhandled event type ${event.type}`);
-  // }
 
   response.status(200).send();
 };

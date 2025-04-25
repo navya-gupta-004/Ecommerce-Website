@@ -22,12 +22,19 @@ const AllOrder = () => {
     fetchOrderDetails();
   }, []);
 
+  const calculateTotalAmount = (productDetails) => {
+    return productDetails.reduce((total, product) => {
+      return total + product.price * product.quantity;
+    }, 0);
+  };
+
   return (
     <div className="h-[calc(100vh-190px)] overflow-y-scroll">
       {!data[0] && <p>No Order available</p>}
 
       <div className="p-4 w-full">
         {data.map((item, index) => {
+          const orderTotal = calculateTotalAmount(item.productDetails);
           return (
             <div key={item.userId + index}>
               <p className="font-medium text-lg">
@@ -75,23 +82,11 @@ const AllOrder = () => {
                         Payment Status : {item.paymentDetails.payment_status}
                       </p>
                     </div>
-                    <div>
-                      <div className="text-lg font-medium">
-                        Shipping Details :
-                      </div>
-                      {item.shipping_options.map((shipping, index) => {
-                        return (
-                          <div key={shipping.shipping_rate} className=" ml-1">
-                            Shipping Amount : {shipping.shipping_amount}
-                          </div>
-                        );
-                      })}
-                    </div>
                   </div>
                 </div>
 
                 <div className="font-semibold ml-auto w-fit lg:text-lg">
-                  Total Amount : {item.totalAmount}
+                  Total Amount : {orderTotal}
                 </div>
               </div>
             </div>

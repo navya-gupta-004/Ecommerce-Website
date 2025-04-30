@@ -50,7 +50,7 @@ const Cart = () => {
     });
 
     const responseData = await response.json();
-
+    console.log("payment response", responseData);
     if (responseData.success) {
       fetchData();
     }

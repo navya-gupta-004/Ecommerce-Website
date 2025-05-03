@@ -12,6 +12,7 @@ const AdminProductCard = ({ data, fetchdata }) => {
         <div className="w-32 h-32 flex justify-center items-center">
           <img
             src={data?.productImage[0]}
+            alt={data?.productName || "Product Image"}
             className="mx-auto object-fill h-full"
           />
         </div>

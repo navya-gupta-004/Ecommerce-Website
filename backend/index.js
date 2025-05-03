@@ -6,6 +6,8 @@ const connectDB = require("./config/db");
 const router = require("./routes");
 
 const app = express();
+
+const PORT = 8080;
 app.use(
   cors({
     origin: true,
@@ -14,12 +16,11 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-
 app.use("/api", router);
 
 connectDB().then(() => {
-  app.listen(process.env.PORT, () => {
+  app.listen(PORT, () => {
     console.log("connnect to DB");
-    console.log("Server is running ", process.env.PORT);
+    console.log("Server is running ", PORT);
   });
 });
